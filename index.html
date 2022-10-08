@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Text Manipulation</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap.css'
+        integrity='sha512-+QrNe4Kul4TNKwDK+EJM71C9z5I9I/iYLEIJPYTfmXouMSU8tkayWYnOsAKjDAaOOH21+MS747IPTYcD+2euuQ=='
+        crossorigin='anonymous' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/js/bootstrap.min.js'
+        integrity='sha512-5BqtYqlWfJemW5+v+TZUs22uigI8tXeVah5S/1Z6qBLVO7gakAOtkOzUtgq6dsIo5c0NJdmGPs0H9I+2OHUHVQ=='
+        crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css'
+        integrity='sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=='
+        crossorigin='anonymous' />
+</head>
+
+<body>
+    <div class="container d-grid gap-3">
+        <div class="row">
+            <h1 class="col mx-auto">Speech Text Manipulation</h1>
+        </div>
+        <div class="row g-3 mx-auto">
+            <div class="col-auto">
+                <button id="btnMic" class="btn btn-danger" type="button" onclick="speechToText()">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                </button>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-success" type="button" onclick="textToSpeech()">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10 mx-auto">
+                <textarea id="txtOutput" class="form-control mx-auto" readonly="true"></textarea>
+            </div>
+        </div>
+        <div class="row  row-cols-1  row-cols-md-2  row-cols-lg-4 g-3">
+            <div class="col">
+                <label for="language" class="form-label">Language</label>
+                <select id="language" name="language" class="form-select">
+                    <!-- <option disabled selected>Change Language</option> -->
+                    <option value="en-US" selected>English</option>
+                    <option value="es-ES">Español</option>
+                    <option value="pt-BR">Português</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="voice" class="form-label">Voice</label>
+                <select id="voice" name="voice" class="form-select">
+                    <option disabled selected>No Language</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="rate" class="form-label">Rate</label>
+                <div id="rate-value">1</div>
+                <input type="range" class="form-range" min="0.5" max="2" value="1" step="0.1" id="rate">
+            </div>
+            <div class="col">
+                <label for="pitch" class="form-label">Pitch</label>
+                <div id="pitch-value">1</div>
+                <input type="range" class="form-range" min="0" max="2" value="1" step="0.1" id="pitch">
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
