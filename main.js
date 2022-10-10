@@ -16,7 +16,6 @@ const micOn = '<i class="fa-solid fa-microphone-lines-slash"></i>'
 const txtOutput = document.getElementById("txtOutput");
 
 let recognitionOn = false;
-let lang;
 let voices;
 const langs = new Set();
 
@@ -25,7 +24,6 @@ recognition.continuous = true;
 
 synth.addEventListener("voiceschanged", () => {
     getVoicesList();
-    setLang();
     fillLang();
     fillVoices();
 });
@@ -39,22 +37,25 @@ rngPitch.addEventListener("input", () => {
 });
 
 selLanguage.addEventListener("change", () =>{
-    setLang();
-    fillVoices();
-});
-
-function setLang() {
     if (recognitionOn) {
         stopRecognition()
     }
-    lang = selLanguage.value
-    recognition.lang = lang;
-    console.log("New lang set: " + lang);
+    fillVoices()
+});
+
+function getVoicesList() {
+    voices = synth.getVoices();
+    langs.clear();
+    for (const v of voices) {
+        langs.add(v.lang);
+    }
+    console.log(langs);
 }
 
 function fillLang() {
     selLanguage.innerHTML = ""
     let languages = Array.from(langs);
+    languages.push("- All -")
     languages.sort();
     for (const l of languages) {
         const option = document.createElement("option");
@@ -67,30 +68,30 @@ function fillLang() {
     }
 }
 
-function getVoicesList() {
-    voices = synth.getVoices();
-    langs.clear();
-    console.log(voices);
-    for (const v of voices) {
-        langs.add(v.lang);
-    }
-    console.log(langs);
-}
-
 function fillVoices() {
     selVoice.innerHTML = "";
     for (const v of voices) {
-        // if (lang === v.lang) {
+        if (selLanguage.value === v.lang || selLanguage.value === "- All -") {
+            console.log("lang: " + selLanguage.value + " - v.lang: " + v.lang)
             const option = document.createElement("option");
             option.textContent = v.name + " (" + v.lang + ")"
-            console.log(v);
+            option.setAttribute('data-name', v.name)
+            option.setAttribute('data-lang', v.lang)
             if (v.default) {
+                option.textContent += " - Default"
                 option.setAttribute('selected', '')
+                voice = v.name;
             }
             selVoice.appendChild(option);
-        // }
+        }
     }
 }
+// function setLang() {
+    
+//     // lang = selLanguage.value;
+//     // recognition.lang = lang;
+//     // console.log("New lang set: " + lang);
+// }
 
 function speechToText() {
     if (recognitionOn) {
@@ -109,6 +110,7 @@ function stopRecognition() {
 
 function startRecognition() {
     txtOutput.value = "";
+    recognition.lang = selVoice.selectedOptions[0].getAttribute('data-lang')
     recognition.start();
     recognitionOn = true;
     console.log("Recognition Started");
@@ -121,5 +123,18 @@ recognition.onresult = (e) => {
 }
 
 function textToSpeech() {
+    stopRecognition();
+    const utterThis = new SpeechSynthesisUtterance(txtOutput.value);
+    const voice = selVoice.selectedOptions[0].getAttribute('data-name')
+    for (const v of voices) {
+        if (v.name === voice) {
+            utterThis.voice = v;
+            console.log(voice);
+        }
+    }
+    utterThis.pitch = rngPitch.value;
+    utterThis.rate = rngRate.value;
+    synth.speak(utterThis);
 
+    txtOutput.blur()
 }
