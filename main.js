@@ -1,6 +1,7 @@
-const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
-// const SpeechGrammarList = window.SpeechGrammarList || webkitSpeechGrammarList;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 // const SpeechRecognitionEvent = window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+const recognition = new SpeechRecognition();
+recognition.continuous = true;
 
 const synth = window.speechSynthesis;
 
@@ -19,8 +20,6 @@ let recognitionOn = false;
 let voices;
 const langs = new Set();
 
-const recognition = new SpeechRecognition();
-recognition.continuous = true;
 
 synth.addEventListener("voiceschanged", () => {
     getVoicesList();
