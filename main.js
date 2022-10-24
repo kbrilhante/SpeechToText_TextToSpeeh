@@ -85,12 +85,6 @@ function fillVoices() {
         }
     }
 }
-// function setLang() {
-    
-//     // lang = selLanguage.value;
-//     // recognition.lang = lang;
-//     // console.log("New lang set: " + lang);
-// }
 
 function speechToText() {
     if (recognitionOn) {
