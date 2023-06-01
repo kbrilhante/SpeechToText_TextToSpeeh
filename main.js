@@ -71,7 +71,7 @@ function fillVoices() {
     selVoice.innerHTML = "";
     for (const v of voices) {
         if (selLanguage.value === v.lang || selLanguage.value === "- All -") {
-            console.log("lang: " + selLanguage.value + " - v.lang: " + v.lang)
+            console.log("lang: " + selLanguage.value + " - v.lang: " + v.lang);
             const option = document.createElement("option");
             option.textContent = v.name + " (" + v.lang + ")"
             option.setAttribute('data-name', v.name)
